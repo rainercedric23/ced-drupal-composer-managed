@@ -56,5 +56,8 @@
         "platform": {
             "php": "7.4"
         }
+    },
+    "require-dev": {
+        "drupal/devel": "^4.1"
     }
 }
