@@ -1,5 +1,5 @@
 <?php
-
+print_r($_ENV['PANTHEON_ENVIRONMENT']);
 /**
  * Load services definition file.
  */
