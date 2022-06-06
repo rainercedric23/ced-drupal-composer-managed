@@ -57,7 +57,7 @@ if (defined('PANTHEON_ENVIRONMENT')) {
 
 $databases['default']['default'] = array(
   'driver' => 'mysql',
-  'database' => 'drupaldb',
+  'database' => 'pantheon',
   'username' => 'pantheon',
   'password' => '0742c1a5e1e74fed90eaed8b4a4075ca',
   'host' => 'dbserver.dev.f28b4525-b720-4fea-b90c-121fceec5d78.drush.in',
