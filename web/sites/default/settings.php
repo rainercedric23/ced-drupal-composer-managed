@@ -55,9 +55,6 @@ if (defined('PANTHEON_ENVIRONMENT')) {
   $settings['cache']['bins']['form'] = 'cache.backend.database'; // Use the database for forms
 }
 
-print_r($databases);
-exit;
-
 $databases['default']['default'] = array(
   'driver' => 'mysql',
   'database' => 'pantheon',
