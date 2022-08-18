@@ -11,6 +11,10 @@
         {
             "type": "path",
             "url": "upstream-configuration"
+        },
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
         }
     ],
     "require": {
@@ -25,7 +29,9 @@
         "drupal/paragraphs": "^1.14",
         "drupal/google_analytics": "^4.0",
         "drupal/pathauto": "^1.10",
-        "drupal/imagick": "^1.5"
+        "drupal/imagick": "^1.5",
+        "oomphinc/composer-installers-extender": "^2.0",
+        "npm-asset/jquery-ui-touch-punch": "^0.2.3"
     },
     "require-dev": {
         "drupal/core-dev": "^9.2",
@@ -50,9 +56,17 @@
                 "[project-root]/.gitattributes": false
             }
         },
+        "installer-types": [
+            "npm-asset", 
+            "bower-asset"
+        ],
         "installer-paths": {
             "web/core": ["type:drupal-core"],
-            "web/libraries/{$name}": ["type:drupal-library"],
+            "web/libraries/{$name}": [
+                "type:drupal-library",
+                "vendor:npm-asset",
+                "vendor:bower-asset"
+            ],
             "web/modules/contrib/{$name}": ["type:drupal-module"],
             "web/profiles/contrib/{$name}": ["type:drupal-profile"],
             "web/themes/contrib/{$name}": ["type:drupal-theme"],
@@ -94,7 +108,8 @@
             "cweagans/composer-patches": true,
             "drupal/core-composer-scaffold": true,
             "dealerdirect/phpcodesniffer-composer-installer": true,
-            "zaporylie/composer-drupal-optimizations": true
+            "zaporylie/composer-drupal-optimizations": true,
+            "oomphinc/composer-installers-extender": true
         }
     }
 }
