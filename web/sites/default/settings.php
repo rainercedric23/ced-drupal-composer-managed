@@ -53,3 +53,5 @@ if (defined('PANTHEON_ENVIRONMENT')) {
 
   $settings['cache']['bins']['form'] = 'cache.backend.database'; // Use the database for forms
 }
+
+echo $_SERVER['REQUEST_URI'];
