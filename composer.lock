@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "58d6aa116f1daae4d4f6fc8c90f34ad4",
+    "content-hash": "375b34dfab14b5bf72f0bb07efe98f5a",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1768,6 +1768,59 @@
             }
         },
         {
+            "name": "drupal/fullcalendar_view",
+            "version": "5.1.7",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/fullcalendar_view.git",
+                "reference": "5.1.7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/fullcalendar_view-5.1.7.zip",
+                "reference": "5.1.7",
+                "shasum": "9f7647f64235682a23fa3fd58738fcb2786d8b4f"
+            },
+            "require": {
+                "drupal/core": "^8 || ^9"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "5.1.7",
+                    "datestamp": "1660091558",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "KarinG",
+                    "homepage": "https://www.drupal.org/user/787114"
+                },
+                {
+                    "name": "Mingsong",
+                    "homepage": "https://www.drupal.org/user/2986445"
+                }
+            ],
+            "description": "This is a lightweight View plugin module that provides a calendar view format powered by FullCalendar JavaScript.",
+            "homepage": "http://drupal.org/project/fullcalendar_view",
+            "keywords": [
+                "Drupal",
+                "fullcalendar_view"
+            ],
+            "support": {
+                "source": "http://cgit.drupalcode.org/fullcalendar_view",
+                "issues": "http://drupal.org/project/issues/fullcalendar_view"
+            }
+        },
+        {
             "name": "drupal/google_analytics",
             "version": "4.0.2",
             "source": {
@@ -3457,6 +3510,18 @@
                 "source": "https://github.com/nikic/PHP-Parser/tree/v4.15.1"
             },
             "time": "2022-09-04T07:30:47+00:00"
+        },
+        {
+            "name": "npm-asset/fullcalendar",
+            "version": "5.11.3",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/fullcalendar/-/fullcalendar-5.11.3.tgz"
+            },
+            "type": "npm-asset",
+            "license": [
+                "MIT"
+            ]
         },
         {
             "name": "npm-asset/jquery-ui-touch-punch",
@@ -11737,5 +11802,5 @@
     "platform-overrides": {
         "php": "7.4"
     },
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.3.0"
 }
