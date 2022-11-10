@@ -357,16 +357,16 @@
         },
         {
             "name": "consolidation/annotated-command",
-            "version": "4.6.0",
+            "version": "4.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/annotated-command.git",
-                "reference": "ee63c57f929e7131c714783193512ea4f76de74c"
+                "reference": "76835d35fcb0b879170129e82adfa1536b72921f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/annotated-command/zipball/ee63c57f929e7131c714783193512ea4f76de74c",
-                "reference": "ee63c57f929e7131c714783193512ea4f76de74c",
+                "url": "https://api.github.com/repos/consolidation/annotated-command/zipball/76835d35fcb0b879170129e82adfa1536b72921f",
+                "reference": "76835d35fcb0b879170129e82adfa1536b72921f",
                 "shasum": ""
             },
             "require": {
@@ -407,9 +407,9 @@
             "description": "Initialize Symfony Console commands from annotated command class methods.",
             "support": {
                 "issues": "https://github.com/consolidation/annotated-command/issues",
-                "source": "https://github.com/consolidation/annotated-command/tree/4.6.0"
+                "source": "https://github.com/consolidation/annotated-command/tree/4.6.1"
             },
-            "time": "2022-10-30T22:08:00+00:00"
+            "time": "2022-11-09T18:31:17+00:00"
         },
         {
             "name": "consolidation/config",
@@ -3892,16 +3892,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.11.8",
+            "version": "v0.11.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "f455acf3645262ae389b10e9beba0c358aa6994e"
+                "reference": "1acec99d6684a54ff92f8b548a4e41b566963778"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/f455acf3645262ae389b10e9beba0c358aa6994e",
-                "reference": "f455acf3645262ae389b10e9beba0c358aa6994e",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/1acec99d6684a54ff92f8b548a4e41b566963778",
+                "reference": "1acec99d6684a54ff92f8b548a4e41b566963778",
                 "shasum": ""
             },
             "require": {
@@ -3962,9 +3962,9 @@
             ],
             "support": {
                 "issues": "https://github.com/bobthecow/psysh/issues",
-                "source": "https://github.com/bobthecow/psysh/tree/v0.11.8"
+                "source": "https://github.com/bobthecow/psysh/tree/v0.11.9"
             },
-            "time": "2022-07-28T14:25:11+00:00"
+            "time": "2022-11-06T15:29:46+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
