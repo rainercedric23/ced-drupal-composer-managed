@@ -19,7 +19,7 @@
     ],
     "require": {
         "pantheon-upstreams/upstream-configuration": "dev-main",
-        "composer/installers": "^1.9",
+        "composer/installers": "^2.2",
         "drupal/core-composer-scaffold": "^9.2",
         "drupal/core-recommended": "^9.2",
         "pantheon-systems/drupal-integrations": "^9",
@@ -31,7 +31,9 @@
         "drupal/pathauto": "^1.10",
         "drupal/imagick": "^1.5",
         "oomphinc/composer-installers-extender": "^2.0",
-        "npm-asset/jquery-ui-touch-punch": "^0.2.3"
+        "npm-asset/jquery-ui-touch-punch": "^0.2.3",
+        "mnsami/composer-custom-directory-installer": "^2.0",
+        "drupal/openapi_ui_swagger": "^1.0@RC"
     },
     "require-dev": {
         "drupal/core-dev": "^9.2",
@@ -40,7 +42,7 @@
     "conflict": {
             "drupal/drupal": "*"
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true,
     "extra": {
         "drupal-scaffold": {
@@ -65,7 +67,8 @@
             "web/libraries/{$name}": [
                 "type:drupal-library",
                 "vendor:npm-asset",
-                "vendor:bower-asset"
+                "vendor:bower-asset",
+                "swagger-api/swagger-ui"
             ],
             "web/modules/contrib/{$name}": ["type:drupal-module"],
             "web/profiles/contrib/{$name}": ["type:drupal-profile"],
@@ -109,7 +112,8 @@
             "drupal/core-composer-scaffold": true,
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "zaporylie/composer-drupal-optimizations": true,
-            "oomphinc/composer-installers-extender": true
+            "oomphinc/composer-installers-extender": true,
+            "mnsami/composer-custom-directory-installer": true
         }
     }
 }
