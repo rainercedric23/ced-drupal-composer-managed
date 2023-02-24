@@ -40,7 +40,7 @@
         "drupal/devel": "^5.1"
     },
     "conflict": {
-            "drupal/drupal": "*"
+        "drupal/drupal": "*"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -49,9 +49,7 @@
             "locations": {
                 "web-root": "./web"
             },
-            "allowed-packages": [
-                "pantheon-systems/drupal-integrations"
-            ],
+            "allowed-packages": ["pantheon-systems/drupal-integrations"],
             "file-mapping": {
                 "[project-root]/.editorconfig": false,
                 "[project-root]/pantheon.upstream.yml": false,
@@ -59,7 +57,7 @@
             }
         },
         "installer-types": [
-            "npm-asset", 
+            "npm-asset",
             "bower-asset"
         ],
         "installer-paths": {
@@ -82,23 +80,15 @@
         "composer-exit-on-patch-failure": true,
         "patchLevel": {
             "drupal/core": "-p2"
-        }
+        },
+        "enable-patching": true
     },
     "autoload": {
-        "classmap": [
-            "upstream-configuration/scripts/ComposerScripts.php"
-        ]
+        "classmap": ["upstream-configuration/scripts/ComposerScripts.php"]
     },
     "scripts": {
-        "pre-update-cmd": [
-            "DrupalComposerManaged\\ComposerScripts::preUpdate"
-        ],
-        "upstream-require": [
-            "DrupalComposerManaged\\ComposerScripts::upstreamRequire"
-        ]
-    },
-    "scripts-descriptions": {
-        "upstream-require": "Add a dependency to an upstream. See https://pantheon.io/docs/create-custom-upstream for information on creating custom upstreams."
+        "pre-update-cmd": ["DrupalComposerManaged\\ComposerScripts::preUpdate"],
+        "post-update-cmd": ["DrupalComposerManaged\\ComposerScripts::postUpdate"]
     },
     "config": {
         "preferred-install": "dist",
