@@ -5,3 +5,4 @@ database:
   version: 10.4
 drush_version: 10
 php_version: 8.1
+enforce_https: full+subdomains
