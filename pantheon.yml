@@ -6,3 +6,8 @@ database:
 drush_version: 10
 php_version: 8.1
 enforce_https: full+subdomains
+protected_web_paths:
+  - /private/
+  - /sites/default/files/private/
+  - /sites/default/files/config/
+  - index.php
