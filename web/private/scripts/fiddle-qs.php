@@ -3,7 +3,10 @@
 // destroy the canonical version of the data.
 if (defined('PANTHEON_ENVIRONMENT') && (PANTHEON_ENVIRONMENT !== 'live')) {
   echo 'Show ENV variables\n';
-  echo implode('|', $_ENV);
+  foreach($page as $key => $value) {
+    echo "$key=$value|";
+  }
   
 	echo '\nEnd of ENV variables\n';
+
 }
