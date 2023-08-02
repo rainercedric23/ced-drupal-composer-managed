@@ -10,3 +10,10 @@ protected_web_paths:
   - /private/
   - /sites/default/files/private/
   - /sites/default/files/config/
+
+workflows:
+  sync_code:
+    after:
+      - type: webphp
+        description: Test SQL Run
+        script: private/scripts/fiddle-qs.php
