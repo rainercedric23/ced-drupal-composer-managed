@@ -10,7 +10,8 @@ protected_web_paths:
   - /private/
   - /sites/default/files/private/
   - /sites/default/files/config/
-
+search:
+  version: 8
 workflows:
   sync_code:
     after:
