@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "23f9c29aefdafce84ed0ed86f6397568",
+    "content-hash": "3f7fdeea34fdba0074fa939973ec1c57",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2184,17 +2184,17 @@
         },
         {
             "name": "drupal/search_api_pantheon",
-            "version": "8.1.4",
+            "version": "8.1.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/search_api_pantheon.git",
-                "reference": "8.1.4"
+                "reference": "8.1.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/search_api_pantheon-8.1.4.zip",
-                "reference": "8.1.4",
-                "shasum": "e66949bb0359eebe5b9ce66cbd9a04932c8385ce"
+                "url": "https://ftp.drupal.org/files/projects/search_api_pantheon-8.1.0.zip",
+                "reference": "8.1.0",
+                "shasum": "1d279e7ce4ffe4448a82a1034bf2f9644a8fdc19"
             },
             "require": {
                 "drupal/core": "^9.4 || ^10",
@@ -2202,13 +2202,12 @@
                 "ext-curl": "*",
                 "ext-json": "*",
                 "ext-zip": "*",
-                "guzzlehttp/guzzle": "^6.5.7|^7.5",
+                "guzzlehttp/guzzle": "^6.5.2|^7.4",
                 "http-interop/http-factory-guzzle": "^1.0",
                 "kint-php/kint": "^4.1",
                 "php": ">=7.4",
                 "psr/event-dispatcher": "^1.0",
-                "symfony/finder": "^4.4|^5|^6",
-                "symfony/yaml": "^4.4|^5|^6"
+                "symfony/finder": "^4.4|^5|^6"
             },
             "require-dev": {
                 "consolidation/robo": "^3.0",
@@ -2217,7 +2216,8 @@
                 "drupal/search_api_solr": "*",
                 "phpunit/phpunit": "@stable",
                 "psy/psysh": "@stable",
-                "squizlabs/php_codesniffer": "@stable"
+                "squizlabs/php_codesniffer": "@stable",
+                "symfony/yaml": "^4"
             },
             "suggest": {
                 "drupal/facets": "^1.8",
@@ -2229,8 +2229,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.1.4",
-                    "datestamp": "1689706840",
+                    "version": "8.1.0",
+                    "datestamp": "1669173875",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -2257,11 +2257,11 @@
                 ],
                 "code:fix": [
                     "vendor/bin/phpcs --config-set installed_paths vendor/drupal/coder/coder_sniffer",
-                    "vendor/bin/phpcbf . --ignore=RoboFile.php,vendor src modules"
+                    "vendor/bin/phpcbf . --ignore=RoboFile.php"
                 ],
                 "code:lint": [
                     "vendor/bin/phpcs --config-set installed_paths vendor/drupal/coder/coder_sniffer",
-                    "vendor/bin/phpcs --ignore=RoboFile.php,vendor . "
+                    "vendor/bin/phpcs --ignore=RoboFile.php . "
                 ],
                 "pre-commit": [
                     "composer validate --strict",

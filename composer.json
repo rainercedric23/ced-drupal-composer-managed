@@ -30,7 +30,7 @@
         "drupal/google_analytics": "^4.0",
         "oomphinc/composer-installers-extender": "^2.0",
         "npm-asset/jquery-ui-touch-punch": "^0.2.3",
-        "drupal/search_api_pantheon": "^8",
+        "drupal/search_api_pantheon": "8.1.0",
         "drupal/ckeditor": "^1.0",
         "drupal/color": "^1.0",
         "drupal/quickedit": "^1.0",
