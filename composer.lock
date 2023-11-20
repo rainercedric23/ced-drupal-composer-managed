@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6b4b611979de9b0c6bbbc8f139a5d69e",
+    "content-hash": "be08d1e04c9c7de6f2e617bcef0f4de9",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1810,6 +1810,57 @@
             "support": {
                 "source": "https://git.drupalcode.org/project/google_analytics",
                 "issues": "https://www.drupal.org/project/issues/google_analytics"
+            }
+        },
+        {
+            "name": "drupal/media_pdf_thumbnail",
+            "version": "6.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/media_pdf_thumbnail.git",
+                "reference": "6.0.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/media_pdf_thumbnail-6.0.0.zip",
+                "reference": "6.0.0",
+                "shasum": "2285d77249538e6d7e9f7e50a9298f216e3ecacd"
+            },
+            "require": {
+                "drupal/core": "^9 || ^10",
+                "ext-imagick": "*",
+                "php": ">=8.0",
+                "spatie/pdf-to-image": "^2.1.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "6.0.0",
+                    "datestamp": "1699198921",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "sgostanyan",
+                    "homepage": "https://www.drupal.org/user/3569364"
+                }
+            ],
+            "description": "Media PDF Thumbnail",
+            "homepage": "https://www.drupal.org/project/media_pdf_thumbnail",
+            "keywords": [
+                "Drupal"
+            ],
+            "support": {
+                "source": "http://cgit.drupalcode.org/media_pdf_thumbnail",
+                "issues": "http://drupal.org/project/issues/media_pdf_thumbnail"
             }
         },
         {
@@ -4905,6 +4956,66 @@
                 "source": "https://github.com/solariumphp/solarium/tree/6.3.3"
             },
             "time": "2023-10-14T14:46:33+00:00"
+        },
+        {
+            "name": "spatie/pdf-to-image",
+            "version": "2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/pdf-to-image.git",
+                "reference": "9b8d5bae5b77f6023e87b2401028e52b7addbd48"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/pdf-to-image/zipball/9b8d5bae5b77f6023e87b2401028e52b7addbd48",
+                "reference": "9b8d5bae5b77f6023e87b2401028e52b7addbd48",
+                "shasum": ""
+            },
+            "require": {
+                "ext-imagick": "*",
+                "php": "^7.2|^8.0"
+            },
+            "require-dev": {
+                "pestphp/pest": "^1.21"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\PdfToImage\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Convert a pdf to an image",
+            "homepage": "https://github.com/spatie/pdf-to-image",
+            "keywords": [
+                "convert",
+                "image",
+                "pdf",
+                "pdf-to-image",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/pdf-to-image/issues",
+                "source": "https://github.com/spatie/pdf-to-image/tree/2.2.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-03-08T07:52:26+00:00"
         },
         {
             "name": "symfony/console",
