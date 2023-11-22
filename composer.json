@@ -38,7 +38,8 @@
         "drupal/seven": "^1.0",
         "drupal/bartik": "^1.0",
         "drupal/media_pdf_thumbnail": "^6.0",
-        "spatie/pdf-to-image": "^2.2"
+        "spatie/pdf-to-image": "^2.2",
+        "drupal/pantheon_advanced_page_cache": "^2.1"
     },
     "require-dev": {
         "drupal/core-dev": "^10",
