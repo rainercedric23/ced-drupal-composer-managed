@@ -1,0 +1,14 @@
+name: CAS
+description: 'Provides CAS authentication for Drupal.'
+type: module
+core_version_requirement: ^9 || ^10
+configure: cas.settings
+dependencies:
+  - externalauth:externalauth
+test_dependencies:
+  - cas_mock_server:cas_mock_server
+
+# Information added by Drupal.org packaging script on 2023-09-14
+version: '2.2.0'
+project: 'cas'
+datestamp: 1694709914
