@@ -69,8 +69,7 @@
         "drupal/webform_ui": "^6.1.5"
     },
     "require-dev": {
-        "drupal/core-dev": "^10",
-        "drupal/devel": "^5.1"
+        "drupal/core-dev": "^9"
     },
     "conflict": {
         "drupal/drupal": "*"
