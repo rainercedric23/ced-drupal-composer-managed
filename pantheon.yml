@@ -4,12 +4,12 @@ api_version: 1
 database:
   version: 10.6
 drush_version: 10
-php_version: 8.1
 enforce_https: full+subdomains
 protected_web_paths:
   - /private/
   - /sites/default/files/private/
   - /sites/default/files/config/
+  - /autodiscover/autodiscover.xml\
 search:
   version: 8
 workflows:
@@ -26,3 +26,7 @@ workflows:
         - type: webphp
         description: Import configuration from .yml files
         script: private/scripts/drush_config_import/drush_config_import.php
+
+web_docroot: true
+php_version: 8.2
+drush_version: 11
