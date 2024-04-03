@@ -1,0 +1,14 @@
+uuid: 140fa810-3471-48da-926a-169b395ba2e0
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.people_admin
+  module:
+    - user
+id: user_add_role_action.people_admin
+label: 'Add the People Admin role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: people_admin

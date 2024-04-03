@@ -1,0 +1,14 @@
+uuid: 9a99ac72-58e2-4c4d-92a5-bbd6d777a9a5
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.people_admin
+  module:
+    - user
+id: user_remove_role_action.people_admin
+label: 'Remove the People Admin role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: people_admin

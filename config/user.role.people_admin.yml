@@ -1,0 +1,12 @@
+uuid: f58b58a9-470b-43da-bc5d-606561f6820a
+langcode: en
+status: true
+dependencies:
+  module:
+    - file
+id: people_admin
+label: 'People Admin'
+weight: 3
+is_admin: null
+permissions:
+  - 'delete own files'
