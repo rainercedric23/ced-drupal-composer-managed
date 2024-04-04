@@ -26,3 +26,6 @@ workflows:
       - type: webphp
         description: Import configuration from .yml files
         script: private/scripts/drush_config_import.php
+      - type: webphp
+        description: Log to New Relic
+        script: private/scripts/new_relic_deploy.php
