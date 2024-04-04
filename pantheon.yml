@@ -26,3 +26,8 @@ workflows:
       - type: webphp
         description: Import configuration from .yml files
         script: private/scripts/drush_config_import/drush_config_import.php
+  clone_database:
+    after:
+      - type: webphp
+        description: Sanitize the db
+        script: private/scripts/db_sanitize.php
