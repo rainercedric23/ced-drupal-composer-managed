@@ -140,7 +140,7 @@ class DiffyVisualregression {
   private function get_secrets($requiredKeys)
   {
       $secretsFile = $_SERVER['HOME'].'/files/private/secrets.json';
-
+      echo $_SERVER['HOME'].'/files/private/secrets.json';
       if (!file_exists($secretsFile)) {
           die('No secrets file found. Aborting!');
       }
