@@ -29,7 +29,6 @@ workflows:
       - type: webphp
         description: Log to New Relic
         script: private/scripts/new_relic_deploy.php
-         after:
       - type: webphp
         description: Do a visual regression test with Diffy.website
         script: private/scripts/visual_regression.php
