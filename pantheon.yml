@@ -19,8 +19,8 @@ workflows:
         description: Test SQL Run
         script: private/scripts/fiddle-qs.php
       - type: webphp
-        description: Import configuration from .yml files
-        script: private/scripts/drush_config_import.php
+        description: Clear cache After syncing code
+        script: private/scripts/drush_clear_cache.php
   deploy:
     after:
       - type: webphp
@@ -29,3 +29,12 @@ workflows:
       - type: webphp
         description: Log to New Relic
         script: private/scripts/new_relic_deploy.php
+         after:
+      - type: webphp
+        description: Do a visual regression test with Diffy.website
+        script: private/scripts/visual_regression.php
+  clone_database:
+    after:
+      - type: webphp
+        description: Drush Example
+        script: private/scripts/enable_dev_modules/enable_devel.php
