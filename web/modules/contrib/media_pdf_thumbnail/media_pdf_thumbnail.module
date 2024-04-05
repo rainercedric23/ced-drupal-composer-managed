@@ -1,0 +1,287 @@
+<?php
+
+/**
+ * @file
+ * Contains media_pdf_thumbnail.module.
+ */
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\media_pdf_thumbnail\Plugin\Field\FieldFormatter\MediaPdfThumbnailImageFieldFormatter;
+
+/**
+ * Implements hook_help().
+ *
+ */
+function media_pdf_thumbnail_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the adimeo_pdf_thumbnail module.
+    case 'help.page.media_pdf_thumbnail':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Generate a thumbnail image from a pdf file in media entity') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_file_download().
+ */
+function media_pdf_thumbnail_file_download($uri) {
+  if (strpos($uri, 'private://') !== FALSE) {
+    $pdfEntity = Drupal::service('media_pdf_thumbnail.image.manager')->getPdfEntityByPdfFileUri($uri);
+    if (!empty($pdfEntity)) {
+      if (Drupal::currentUser()->hasPermission('view private pdf thumbnails')) {
+        return 1;
+      }
+      return -1;
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function media_pdf_thumbnail_form_views_ui_config_item_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  /** @var \Drupal\views\Entity\View $view */
+  $view = $form_state->getStorage()['view'];
+  $display = $view->getExecutable()->getDisplay();
+  $thumbnailField = isset($display->handlers['field']) && array_key_exists('thumbnail__target_id', $display->handlers['field']);
+  $mediaPdfFormatter = isset($form['options']['type']) && $form['options']['type']['#default_value'] === 'media_pdf_thumbnail_image_field_formatter';
+
+  if ($thumbnailField) {
+    array_unshift($form['actions']['submit']['#submit'], '_media_pdf_thumbnail_form_views_ui_edit_display_submit');
+  }
+  if ($mediaPdfFormatter) {
+    $form = _media_pdf_thumbnail_buildForm($form, $form_state);
+  }
+}
+
+/**
+ * @param $form
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *
+ * @return void
+ */
+function _media_pdf_thumbnail_form_views_ui_edit_display_submit($form, FormStateInterface $form_state) {
+
+  /** @var \Drupal\views\Entity\View $view */
+  $view = $form_state->getStorage()['view'];
+  $display = $view->getExecutable()->getDisplay();
+  $values = $form_state->getValues();
+  $type = $values['options']['type'];
+
+  if ($type == 'media_pdf_thumbnail_image_field_formatter') {
+
+    foreach (_get_setting_values($form_state) as $field => $value) {
+      // As those fields are in fieldsets, values are not saved in settings storage.
+      // Needing to put theme in first level of settings array.
+      $values['options']['settings'][$field] = $value;
+    }
+
+    $form_state->setValues($values);
+  }
+}
+
+/**
+ * @param $form
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *
+ * @return array
+ */
+function _media_pdf_thumbnail_buildForm($form, FormStateInterface $form_state) {
+
+  $values = _get_setting_values($form_state);
+
+  // Bundle options
+  foreach (_media_pdf_thumbnail_getFieldsList() as $bundleId => $infos) {
+    if (!empty($infos['fields'])) {
+      $form['options']['settings'][$bundleId] = [
+        '#type' => 'fieldset',
+        '#title' => t($infos['label']),
+        '#collapsible' => FALSE,
+        '#collapsed' => FALSE,
+      ];
+
+      $form['options']['settings'][$bundleId][$bundleId . MediaPdfThumbnailImageFieldFormatter::MEDIA_BUNDLE_IMAGE_STYLE] = $form['options']['settings'][MediaPdfThumbnailImageFieldFormatter::IMAGE_STYLE_SETTINGS];
+      $form['options']['settings'][$bundleId][$bundleId . MediaPdfThumbnailImageFieldFormatter::MEDIA_BUNDLE_IMAGE_STYLE]['#default_value'] = $values[$bundleId . MediaPdfThumbnailImageFieldFormatter::MEDIA_BUNDLE_IMAGE_STYLE];
+
+      $form['options']['settings'][$bundleId][$bundleId . MediaPdfThumbnailImageFieldFormatter::MEDIA_BUNDLE_FIELD] = [
+        '#type' => 'select',
+        '#title' => t('Field to use to generate thumbnail'),
+        '#description' => t('The file attached must be pdf type, otherwise it will be ignored.</br>If that field is multivalued, only the first value will be used.'),
+        '#options' => $infos['fields'],
+        '#default_value' => $values[$bundleId . MediaPdfThumbnailImageFieldFormatter::MEDIA_BUNDLE_FIELD],
+      ];
+
+      $form['options']['settings'][$bundleId][$bundleId . MediaPdfThumbnailImageFieldFormatter::MEDIA_BUNDLE_PAGE] = [
+        '#type' => 'number',
+        '#min' => 1,
+        '#title' => ('Page'),
+        '#default_value' => $values[$bundleId . MediaPdfThumbnailImageFieldFormatter::MEDIA_BUNDLE_PAGE] ?? MediaPdfThumbnailImageFieldFormatter::DEFAULT_PDF_PAGE_SETTING,
+        '#description' => t('Which page to use for the thumbnail'),
+      ];
+
+      $form['options']['settings'][$bundleId][$bundleId . MediaPdfThumbnailImageFieldFormatter::MEDIA_BUNDLE_IMAGE_FORMAT] = [
+        '#type' => 'select',
+        '#title' => t('Choose image format'),
+        '#options' => ['jpg' => 'jpg', 'png' => 'png'],
+        '#default_value' => $values[$bundleId . MediaPdfThumbnailImageFieldFormatter::MEDIA_BUNDLE_IMAGE_FORMAT],
+      ];
+
+      $form['options']['settings'][$bundleId][$bundleId . MediaPdfThumbnailImageFieldFormatter::MEDIA_BUNDLE_LINK] = [
+        '#title' => t('Link image to'),
+        '#type' => 'select',
+        '#empty_option' => t('Nothing'),
+        '#options' => [
+          'content' => t('Content'),
+          'file' => t('File'),
+          'pdf_file' => t('PDF File'),
+        ],
+        '#weight' => 0,
+        '#default_value' => $values[$bundleId . MediaPdfThumbnailImageFieldFormatter::MEDIA_BUNDLE_LINK],
+        '#attributes' => [
+          'data-bundle-link' => $bundleId,
+        ],
+      ];
+      $form['options']['settings'][$bundleId][$bundleId . MediaPdfThumbnailImageFieldFormatter::MEDIA_BUNDLE_LINK]['#attributes']['class'][] = 'thumbnail-pdf-link';
+
+      $form['options']['settings'][$bundleId][$bundleId . MediaPdfThumbnailImageFieldFormatter::MEDIA_BUNDLE_ATTRIBUTES_DOWNLOAD] = [
+        '#prefix' => '<div data-bundle-attributes="' . $bundleId . '" class="fieldset"><div class="fieldset__legend"><span class="fieldset__label">' . t('HTML attributes') . '</span><div class="fieldset__wrapper">',
+        '#type' => 'checkbox',
+        '#title' => 'download',
+        '#weight' => 0,
+        '#default_value' => $values[$bundleId . MediaPdfThumbnailImageFieldFormatter::MEDIA_BUNDLE_ATTRIBUTES_DOWNLOAD],
+      ];
+
+      $form['options']['settings'][$bundleId][$bundleId . MediaPdfThumbnailImageFieldFormatter::MEDIA_BUNDLE_ATTRIBUTES_TARGET] = [
+        '#type' => 'textfield',
+        '#title' => t('target') . ' :',
+        '#description' => 'Ex: _self, _blank, _parent, _top',
+        '#weight' => 0,
+        '#size' => 5,
+        '#default_value' => $values[$bundleId . MediaPdfThumbnailImageFieldFormatter::MEDIA_BUNDLE_ATTRIBUTES_TARGET],
+      ];
+
+      $form['options']['settings'][$bundleId][$bundleId . MediaPdfThumbnailImageFieldFormatter::MEDIA_BUNDLE_ATTRIBUTES_REL] = [
+        '#suffix' => '</div></div></div>',
+        '#type' => 'textfield',
+        '#title' => t('rel') . ' :',
+        '#description' => 'Ex: alternate, author, bookmark, icon, nofollow, etc..',
+        '#size' => 5,
+        '#weight' => 0,
+        '#default_value' => $values[$bundleId . MediaPdfThumbnailImageFieldFormatter::MEDIA_BUNDLE_ATTRIBUTES_REL],
+      ];
+
+      $form['options']['settings'][$bundleId][$bundleId . MediaPdfThumbnailImageFieldFormatter::MEDIA_BUNDLE_USE_CRON] = [
+        '#type' => 'checkbox',
+        '#title' => t('Use cron'),
+        '#default_value' => $values[$bundleId . MediaPdfThumbnailImageFieldFormatter::MEDIA_BUNDLE_USE_CRON],
+      ];
+
+      $form['options']['settings'][$bundleId][$bundleId . MediaPdfThumbnailImageFieldFormatter::MEDIA_BUNDLE_ENABLE] = [
+        '#type' => 'checkbox',
+        '#title' => t('Enable'),
+        '#default_value' => $values[$bundleId . MediaPdfThumbnailImageFieldFormatter::MEDIA_BUNDLE_ENABLE],
+      ];
+    }
+  }
+
+  // Unset image_link select from default field formatter.
+  // We will give the possibility to set that option per bundle.
+  unset($form['options']['settings']['image_link']);
+  unset($form['options']['settings'][MediaPdfThumbnailImageFieldFormatter::IMAGE_STYLE_SETTINGS]);
+  unset($form['options']['settings'][MediaPdfThumbnailImageFieldFormatter::PDF_FILE_FIELD_SETTING]);
+  unset($form['options']['settings'][MediaPdfThumbnailImageFieldFormatter::IMAGE_LINK_TYPE_SETTING]);
+  unset($form['options']['settings'][MediaPdfThumbnailImageFieldFormatter::IMAGE_LINK_ATTRIBUTE_DOWNLOAD_SETTING]);
+  unset($form['options']['settings'][MediaPdfThumbnailImageFieldFormatter::IMAGE_LINK_ATTRIBUTE_TARGET_SETTING]);
+  unset($form['options']['settings'][MediaPdfThumbnailImageFieldFormatter::IMAGE_LINK_ATTRIBUTE_REL_SETTING]);
+  unset($form['options']['settings'][MediaPdfThumbnailImageFieldFormatter::IMAGE_FORMAT_SETTINGS]);
+  unset($form['options']['settings'][MediaPdfThumbnailImageFieldFormatter::PDF_PAGE_SETTING]);
+  unset($form['options']['settings'][MediaPdfThumbnailImageFieldFormatter::IMAGE_USE_CRON]);
+
+  return $form;
+}
+
+/**
+ * @return array
+ */
+function _media_pdf_thumbnail_getFieldsList() {
+  $bundles = Drupal::service('entity_type.bundle.info')->getBundleInfo('media');
+  $output = [];
+  foreach ($bundles as $id => $bundle) {
+    $output[$id]['label'] = $bundle['label'];
+    foreach (Drupal::service('entity_field.manager')->getFieldDefinitions('media', $id) as $fieldDefinition) {
+      if ($fieldDefinition->getType() == 'file') {
+        $output[$id]['fields'][$fieldDefinition->getName()] = $fieldDefinition->getName();
+      }
+    }
+  }
+  return $output;
+}
+
+/**
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *
+ * @return []|array
+ */
+function _get_setting_values(FormStateInterface $form_state) {
+
+  /** @var \Drupal\views\Entity\View $view */
+  $view = $form_state->getStorage()['view'];
+  $display = $view->getExecutable()->getDisplay();
+  $inputValues = $form_state->getUserInput();
+  $displayOptions = $display->options['fields']['thumbnail__target_id']['settings'] ?? $display->default_display->options['fields']['thumbnail__target_id']['settings'];
+
+  $output = [];
+
+  foreach (_media_pdf_thumbnail_getFieldsList() as $bundleId => $infos) {
+
+    // Prepare fields names.
+    $mediaBundleField = $bundleId . MediaPdfThumbnailImageFieldFormatter::MEDIA_BUNDLE_FIELD;
+    $mediaBundlePage = $bundleId . MediaPdfThumbnailImageFieldFormatter::MEDIA_BUNDLE_PAGE;
+    $mediaBundleLink = $bundleId . MediaPdfThumbnailImageFieldFormatter::MEDIA_BUNDLE_LINK;
+    $mediaBundleAttributesDownload = $bundleId . MediaPdfThumbnailImageFieldFormatter::MEDIA_BUNDLE_ATTRIBUTES_DOWNLOAD;
+    $mediaBundleAttributesTarget = $bundleId . MediaPdfThumbnailImageFieldFormatter::MEDIA_BUNDLE_ATTRIBUTES_TARGET;
+    $mediaBundleAttributesRel = $bundleId . MediaPdfThumbnailImageFieldFormatter::MEDIA_BUNDLE_ATTRIBUTES_REL;
+    $mediaBundleImageFormat = $bundleId . MediaPdfThumbnailImageFieldFormatter::MEDIA_BUNDLE_IMAGE_FORMAT;
+    $mediaBundleImageStyle = $bundleId . MediaPdfThumbnailImageFieldFormatter::MEDIA_BUNDLE_IMAGE_STYLE;
+    $mediaBundleUseCron = $bundleId . MediaPdfThumbnailImageFieldFormatter::MEDIA_BUNDLE_USE_CRON;
+    $mediaBundleEnable = $bundleId . MediaPdfThumbnailImageFieldFormatter::MEDIA_BUNDLE_ENABLE;
+
+    // Determine values
+    $output = array_merge($output, [
+      $mediaBundleField => !empty($inputValues['options']['settings'][$bundleId]) ? $inputValues['options']['settings'][$bundleId][$mediaBundleField] : $displayOptions[$mediaBundleField],
+      $mediaBundlePage => !empty($inputValues['options']['settings'][$bundleId]) ? $inputValues['options']['settings'][$bundleId][$mediaBundlePage] : $displayOptions[$mediaBundlePage],
+      $mediaBundleLink => !empty($inputValues['options']['settings'][$bundleId]) ? $inputValues['options']['settings'][$bundleId][$mediaBundleLink] : $displayOptions[$mediaBundleLink],
+      $mediaBundleAttributesDownload => !empty($inputValues['options']['settings'][$bundleId]) ? $inputValues['options']['settings'][$bundleId][$mediaBundleAttributesDownload] : $displayOptions[$mediaBundleAttributesDownload],
+      $mediaBundleAttributesTarget => !empty($inputValues['options']['settings'][$bundleId]) ? $inputValues['options']['settings'][$bundleId][$mediaBundleAttributesTarget] : $displayOptions[$mediaBundleAttributesTarget],
+      $mediaBundleAttributesRel => !empty($inputValues['options']['settings'][$bundleId]) ? $inputValues['options']['settings'][$bundleId][$mediaBundleAttributesRel] : $displayOptions[$mediaBundleAttributesRel],
+      $mediaBundleImageFormat => !empty($inputValues['options']['settings'][$bundleId]) ? $inputValues['options']['settings'][$bundleId][$mediaBundleImageFormat] : $displayOptions[$mediaBundleImageFormat],
+      $mediaBundleImageStyle => !empty($inputValues['options']['settings'][$bundleId]) ? $inputValues['options']['settings'][$bundleId][$mediaBundleImageStyle] : $displayOptions[$mediaBundleImageStyle],
+      $mediaBundleUseCron => !empty($inputValues['options']['settings'][$bundleId]) ? $inputValues['options']['settings'][$bundleId][$mediaBundleUseCron] : $displayOptions[$mediaBundleUseCron],
+      $mediaBundleEnable => !empty($inputValues['options']['settings'][$bundleId]) ? $inputValues['options']['settings'][$bundleId][$mediaBundleEnable] : $displayOptions[$mediaBundleEnable],
+    ]);
+  }
+
+  return $output;
+
+}
+
+/**
+ * Implements hook_entity_delete().
+ */
+function media_pdf_thumbnail_entity_delete(EntityInterface $entity) {
+  if ($entity->getEntityTypeId() == 'pdf_image_entity') {
+    $fid = $entity->image_file_id->value;
+    if ($fid) {
+      $file = Drupal::entityTypeManager()->getStorage('file')->load($fid);
+      $file?->delete();
+      $fileUri = $entity->image_file_uri->value;
+      Drupal::service('file_system')->delete($fileUri);
+    }
+  }
+}
