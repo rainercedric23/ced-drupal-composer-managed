@@ -4,7 +4,7 @@ api_version: 1
 database:
   version: 10.6
 drush_version: 10
-php_version: 8.1
+php_version: 8.2
 enforce_https: full+subdomains
 protected_web_paths:
   - /private/
