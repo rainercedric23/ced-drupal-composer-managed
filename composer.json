@@ -42,7 +42,9 @@
         "drupal/pantheon_advanced_page_cache": "^2.1",
         "drupal/jsonapi_extras": "^3.24",
         "drupal/restui": "^1.21",
-        "drupal/rest_api_authentication": "^2.0"
+        "drupal/rest_api_authentication": "^2.0",
+        "simplesamlphp/simplesamlphp": "^2.2",
+        "drupal/h5p": "^2.0@alpha"
     },
     "require-dev": {
         "drupal/core-dev": "^10",
@@ -114,7 +116,8 @@
             "oomphinc/composer-installers-extender": true,
             "mnsami/composer-custom-directory-installer": true,
             "phpstan/extension-installer": true,
-            "php-http/discovery": true
+            "php-http/discovery": true,
+            "simplesamlphp/composer-module-installer": true
         }
     }
 }
